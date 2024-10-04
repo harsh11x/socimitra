@@ -1,0 +1,130 @@
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    socimitra
+    </title>
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+        <style>
+            .p1{
+                text-align: left;
+                font-size: 80;
+                font-weight: 900;
+                font-family: cursive;
+                color: #4d042e;
+                text-transform: capitalize;
+                position: relative;
+                top:80px;
+                left: 10px;
+            }
+            .grad{
+                height: 100%;
+                width: 100%;
+                background-image:linear-gradient(#b7b0f2,white);
+                position:absolute;
+                left: 0;
+                top: 0;
+            }
+            .p2{
+                position:relative;
+                right: 200px;
+                left:10px;
+                top:80px;
+                color: black;
+                text-align: left;
+                font-size: 30;
+                font-family:'Sofia', sans-serif;
+                
+
+            }
+            .nav{ 
+                background-color: #8a0a3fe0;
+                display:block;
+                height: 10%;
+                width: 100%;
+                left:0;
+                top: 0;
+                position:fixed;
+                z-index:1;
+                display: inline-block;
+                text-align: right;
+                font-size: 30;
+                
+
+            }
+            button{
+                position: relative;
+                top:120px;
+                display:inline-block;
+                background-color: #d6bbce;
+                border-color: #1f010d;
+                padding: 10px;
+                left: 30px;
+                margin-right: 10px;
+                width: 122px;
+                height: 35px;
+                text-align: center;
+                cursor:pointer;
+               
+            }
+            button:hover{
+                font-weight: 900;
+                 }
+            button:active{
+                background-color: white;
+            }
+            .p3{
+                position: relative;
+                 top: 110px;
+                  font-family:'Courier New', Courier, monospace ; 
+                  font-size: 28;
+                  font-style: oblique;
+            }
+            
+
+        
+        </style>
+
+    </head>
+    <body>
+       <div class="grad"></div>
+
+      <div class="nav"> HOMe about</div>
+       
+       
+        <div class="p1">your love is just swipe away!</div>
+    <br>
+        <div class="p2">join the quest for love with our secure site where you can swipe with peace of mind!!
+        </div>
+        <div class="p3">I AM:</div>
+
+        
+         <div id="btn"></div>
+         <button onclick="document.getElementById('btn')" >WOMAN</button>
+         <button onclick="document.getElementById('btn')" >MAN </button>
+        <button onclick="document.getElementById('btn')" >NON BINARY</button><br>
+        <br>
+
+        <div class="p3">INTERESTED IN: </div>
+
+        <button onclick="document.getElementById('btn')" >MAN </button>
+        <button onclick="document.getElementById('btn')" >WOMAN</button>
+        <button onclick="document.getElementById('btn')" >NON BINARY</button><br>
+        <br>
+
+        <div class='p3'> age</div>
+        <label>age of interest:</label>
+        <input style="position: relative; top: 110px; left: 30px; width: 8%;" type="number" min="18"> 
+        <br><br>
+          
+        <label class="p3"> country</label>
+        <!--<input style="position:relative; top: 130px;" type="url" >-->
+        <select> <option style="position: relative;"  value="country">option</option>
+        </select>
+       
+
+    
+    
+
+    </body>
+    </html>
