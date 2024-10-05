@@ -7,23 +7,45 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="login-box">
+    <div class="auth-container">
+        <div class="form-box">
             <h2>Login</h2>
-            <form>
+            <form id="loginForm">
                 <div class="input-group">
-                    <input type="email" required>
-                    <label>Email</label>
+                    <input type="text" id="username" required placeholder="Username or Email">
                 </div>
                 <div class="input-group">
-                    <input type="password" required>
-                    <label>Password</label>
+                    <input type="password" id="password" required placeholder="Password">
                 </div>
-                <button type="submit" class="login-btn">Login</button>
-                <p><a href="forgot-password.html">Forgot Password?</a></p>
-                <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                <button type="submit" class="btn">Login</button>
+                <div class="links">
+                    <a href="forgot-password.html">Forgot Password?</a>
+                    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                </div>
             </form>
         </div>
     </div>
+    <script>
+        // Get the form element
+        const form = document.getElementById('loginForm');
+
+        // Add an event listener for form submission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the username and password values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check if the credentials match
+            if (username === 'harsh23' && password === '12345678ahx') {
+                // Redirect to profile.html if credentials are correct
+                window.location.href = 'index.html';
+            } else {
+                // Show an alert for incorrect credentials
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
