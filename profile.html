@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .profile-container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .profile-container:hover {
+            transform: scale(1.01);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header img {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin-right: 10px;
+            border: 3px solid #6200ea; /* Border for the profile image */
+            transition: border 0.3s;
+        }
+
+        .profile-header img:hover {
+            border-color: #3700b3; /* Change border color on hover */
+        }
+
+        .profile-details {
+            margin-left: 20px;
+            flex-grow: 1; /* Allow the profile details to take available space */
+        }
+
+        .profile-details h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .profile-details .age {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .edit-icon {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        .profile-details h3 {
+            margin-top: 0;
+            color: #6200ea;
+        }
+
+        .detail {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background: #6200ea;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            width: 120px; /* Adjust width for smaller buttons */
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #3700b3;
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        .images-preview {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .image-preview {
+            position: relative;
+        }
+
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+
+        .image-preview img:hover {
+            transform: scale(1.05); /* Slight zoom effect on hover */
+        }
+
+        .remove-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 5px;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .remove-button:hover {
+            background: darkred; /* Darker red on hover */
+        }
+
+        .profile-bio {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8eaf6;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Editable input fields */
+        .edit-input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        .edit-input:focus {
+            border-color: #6200ea; /* Change border color on focus */
+            outline: none;
+        }
+
+        /* Religion selection */
+        .religion-select {
+            margin-top: 10px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-header img {
+                margin-bottom: 10px;
+            }
+
+            .btn {
+                width: 100%; /* Full width buttons on mobile */
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="default.jpg" alt="Profile Image" id="profile-image-preview">
+            <button class="btn" onclick="document.getElementById('profile-image-input').click();">Add Profile Photo</button>
+            <input type="file" id="profile-image-input" style="display:none;" accept="image/*" onchange="previewProfileImage(event)">
+        </div>
+    
+        <div class="profile-details">
+            <h2>Harsh Dev Singh</h2>
+            <h4>@harsh23</h4>
+            <p  style="width: 106px;" class="age">Age: 
+                <select class="edit-input" id="age-select" onchange="updateAge()">
+                    <!-- Options for Age from 1 to 100 -->
+                    <option value="">Select Age</option>
+                    <script>
+                        for (let i = 1; i <= 100; i++) {
+                            document.write(`<option value="${i}">${i}</option>`);
+                        }
+                    </script>
+                </select>
+            </p>
+            
+            <div class="location-select">
+                <label for="country">Country:</label>
+                <select id="country" class="edit-input" onchange="updateStates()">
+                    <option value="">Select Country</option>
+                    <!-- Countries will be populated here -->
+                </select>
+    
+                <label for="state">State:</label>
+                <select id="state" class="edit-input" onchange="updateCities()">
+                    <option value="">Select State</option>
+                    <!-- States will be populated here -->
+                </select>
+    
+                <label for="city">City:</label>
+                <select id="city" class="edit-input">
+                    <option value="">Select City</option>
+                    <!-- Cities will be populated here -->
+                </select>
+            </div>
+        </div>
+    
+        <div class="profile-details">
+            <h3>Details</h3>
+            <div class="detail">
+                Height: 
+                <span id="selected-height">""</span> <!-- Added span to show the height -->
+                <div style="display: flex; align-items: center;">
+                    <select class="edit-input" style="width: 80px;" id="feet-select" onchange="updateHeight()">
+                        <option value="">Feet</option>
+                        <!-- Options for Feet from 1 to 10 -->
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <span style="margin: 0 10px;">and</span>
+                    <select class="edit-input" style="width: 80px;" id="inches-select" onchange="updateHeight()">
+                        <option value="">Inches</option>
+                        <!-- Options for Inches from 1 to 12 -->
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </div>
+            
+            <script>
+                // Existing JavaScript...
+            
+                // Update displayed height based on selected feet and inches
+                function updateHeight() {
+                    const feetSelect = document.getElementById("feet-select");
+                    const inchesSelect = document.getElementById("inches-select");
+                    const selectedHeight = document.getElementById("selected-height");
+                    
+                    const feet = feetSelect.value ? feetSelect.value : "0"; // Default to 0 if not selected
+                    const inches = inchesSelect.value ? inchesSelect.value : "0"; // Default to 0 if not selected
+                    
+                    // Update the span with the selected height
+                    selectedHeight.innerText = `${feet}'${inches}`;
+                }
+            </script>
+            
+             
+            <div class="detail">Interests: <input type="text" class="edit-input" value=" " / style="width: 840px;"></div>
+            <div class="detail">Joined: January 2023</div>
+        </div>
+    
+        <div class="profile-bio">
+            <h3>About Me</h3>
+            <textarea class="edit-input" style="padding: 10px; resize: none; width: calc(100% - 20px);" rows="4"> </textarea>
+        </div>
+        
+        <div class="images-preview" id="images-preview">
+            <h3>My Photos</h3>
+            <div class="image-preview">
+                <img src="path/to/photo1.jpg" alt="Photo 1">
+                <button class="remove-button" onclick="removeImage(this)">X</button>
+            </div>
+            <div class="image-preview">
+                <img src="path/to/photo2.jpg" alt="Photo 2">
+                <button class="remove-button" onclick="removeImage(this)">X</button>
+            </div>
+            <div class="image-preview">
+                <img src="path/to/photo3.jpg" alt="Photo 3">
+                <button class="remove-button" onclick="removeImage(this)">X</button>
+            </div>
+        </div>
+    
+        <div class="profile-actions">
+            <button class="btn" id="save-button" onclick="saveProfile()">Save Changes</button>
+            <button class="btn" onclick="window.location.href='index.html'">Home</button>
+        </div>
+    </div>
+    
+    <script>
+        let locations = {};
+    
+        // Fetch locations data from JSON file
+        fetch('locations.json')
+            .then(response => response.json())
+            .then(data => {
+                locations = data.countries;
+                populateCountries();
+            })
+            .catch(error => console.error('Error fetching location data:', error));
+    
+        // Populate countries dropdown
+        function populateCountries() {
+            const countrySelect = document.getElementById("country");
+            for (const key in locations) {
+                countrySelect.innerHTML += `<option value="${key}">${locations[key].name}</option>`;
+            }
+        }
+    
+        // Update states based on the selected country
+        function updateStates() {
+            const countrySelect = document.getElementById("country");
+            const stateSelect = document.getElementById("state");
+            const citySelect = document.getElementById("city");
+    
+            const selectedCountry = countrySelect.value;
+            stateSelect.innerHTML = '<option value="">Select State</option>';
+            citySelect.innerHTML = '<option value="">Select City</option>';
+    
+            if (selectedCountry && locations[selectedCountry].states) {
+                for (const stateKey in locations[selectedCountry].states) {
+                    stateSelect.innerHTML += `<option value="${stateKey}">${locations[selectedCountry].states[stateKey].name}</option>`;
+                }
+            }
+        }
+    
+        // Update cities based on the selected state
+        function updateCities() {
+            const countrySelect = document.getElementById("country");
+            const stateSelect = document.getElementById("state");
+            const citySelect = document.getElementById("city");
+    
+            const selectedCountry = countrySelect.value;
+            const selectedState = stateSelect.value;
+            citySelect.innerHTML = '<option value="">Select City</option>';
+    
+            if (selectedCountry && selectedState && locations[selectedCountry].states[selectedState]) {
+                locations[selectedCountry].states[selectedState].cities.forEach(city => {
+                    citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+                });
+            }
+        }
+    </script>
+    
+</body>
+</html>
