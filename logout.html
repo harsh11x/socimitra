@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-box">
+            <h2>Are you sure you want to log out?</h2>
+            <form id="logoutForm" action="/logout" method="POST" onsubmit="handleLogout(event)">
+                <button type="submit" class="btn">Yes, Log Out</button>
+                <div class="links">
+                    <a href="index.html">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function handleLogout(event) {
+            event.preventDefault(); // Prevent form submission to the server
+            window.location.href = "login.html"; // Redirect to login.html
+        }
+    </script>
+</body>
+</html>
