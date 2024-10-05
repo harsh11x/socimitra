@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="form-box">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <div class="input-group">
+                    <input type="text" required placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <input type="text" required placeholder="Full Name">
+                </div>
+                <div class="input-group">
+                    <input type="email" required placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <input type="password" required placeholder="Password">
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <div class="links">
+                    <p>Already have an account? <a href="login.html">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the form element
+        const form = document.getElementById('signupForm');
+
+        // Add event listener to form submission
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form's default submission action
+            
+            // Redirect to profile.html
+            window.location.href = 'profile.html';
+        });
+    </script>
+</body>
+</html>
