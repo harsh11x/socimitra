@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiping Section</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        header h1 {
+            color: #4e06c2;
+            font-family: 'Pacifico', cursive;
+            font-size: 24px;
+            margin: 0;
+            display: inline-block;
+        }
+
+        .nav-links {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .nav-links a:hover {
+            color: #ccc;
+        }
+
+        /* Flexbox Container */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+            margin-top: 80px; /* Offset for fixed header */
+        }
+
+        /* Main container for swiping section */
+        .swipe-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Swiping Profile Card (left side) */
+        .swiping-profile {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 30px; /* Add space below the profile card */
+        }
+
+        .swiping-profile.hide {
+            opacity: 0; /* Fade out */
+            transition: opacity 0.5s ease; /* Smooth fade out */
+        }
+
+        /* Profile Image */
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        /* Action Buttons (Cross and Heart) */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        /* Make the buttons circular */
+        .action-btn {
+            background-color: #f5f5f5;
+            border: none;
+            padding: 15px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .reject-btn {
+            color: #e53935; /* Red for reject */
+        }
+
+        .accept-btn {
+            color: #43a047; /* Green for accept */
+        }
+
+        /* Hover Effects for Action Buttons */
+        .action-btn:hover {
+            background-color: #ddd;
+            transform: scale(1.1); /* Slightly enlarge the button on hover */
+        }
+
+        /* User Information (right side) */
+        .user-info {
+            flex-grow: 1;
+            padding-left: 40px;
+            max-width: 300px; /* Limit width for user information */
+        }
+
+        .user-info h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .user-info p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #6200ea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .btn:hover {
+            background-color: #3700b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .swipe-box {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .user-info {
+                padding-left: 0;
+                margin-top: 30px;
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Animation Styles */
+        .move-left {
+            animation: moveLeft 0.5s forwards;
+        }
+
+        .move-right {
+            animation: moveRight 0.5s forwards;
+        }
+
+        @keyframes moveLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moveRight {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        .no-profiles {
+            text-align: center;
+            font-size: 2rem;
+            color: #4e06c2;
+            display: none; /* Initially hidden */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SociMitra</h1>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="logout.html">Logout</a>
+            <a href="contact-us.html">Contact Us</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="swipe-box">
+            <!-- Left: Swiping Profile Information -->
+            <div class="swiping-profile" id="profileCard">
+                <img src="female.webp" alt="Profile Picture" class="profile-image">
+                <h3>Profile Name</h3>
+                <br>
+                <p><strong>Country:</strong> Canada</p>
+                <br>
+                <p><strong>Height:</strong> 160 cm</p>
+                
+                <!-- Like/Dislike Button Section -->
+                <div class="action-buttons">
+                    <button class="action-btn reject-btn" onclick="handleReject()"><span>&#10006;</span></button> <!-- Cross (reject) button -->
+                    <button class="action-btn accept-btn" onclick="handleAccept()"><span>&#9829;</span></button> <!-- Heart (accept) button -->
+                </div>
+            </div>
+
+            <!-- Right: Logged-In User Information -->
+            <div class="user-info">
+                <h2>User Name</h2>
+                <p><strong>Country:</strong> India</p>
+                <p><strong>Height:</strong> 3'0 ft</p>
+                
+                <button class="btn" onclick="location.href='message.html'">Send Message</button>            
+            </div>
+        </div>
+    </div>
+
+    <div class="no-profiles" id="noProfilesMessage">No more profiles at the moment.</div>
+
+    <footer>
+        <p>&copy; 2024 SociMitra. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function handleReject() {
+            const profileCard = document.getElementById('profileCard');
+            const noProfilesMessage = document.getElementById('noProfilesMessage');
+
+            profileCard.classList.add('move-left'); // Add left move animation
+            noProfilesMessage.style.display = 'block'; // Show no profiles message
+            
+            setTimeout(() => {
+                profileCard.style.display = 'none'; // Hide profile card after animation
+            }, 500); // Match the timeout with animation duration
+        }
+
+        function handleAccept() {
+            const profileCard = document.getElementById('profileCard');
+            const noProfilesMessage = document.getElementById('noProfilesMessage');
+
+            profileCard.classList.add('move-right'); // Add right move animation
+            noProfilesMessage.style.display = 'block'; // Show no profiles message
+            
+            setTimeout(() => {
+                profileCard.style.display = 'none'; // Hide profile card after animation
+            }, 500); // Match the timeout with animation duration
+        }
+    </script>
+</body>
+</html>
