@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swiping page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 5;
+        }
+
+        
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+ 
+        .upload-section, .profile-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .upload-section {
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-box {
+            border: 2px solid #ccc;
+            width: 80%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        }
+
+        .profile-section {
+            background-color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            background-color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .profile-buttons button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            box-shadow:  0 8px 25px rgba(0, 0, 0, 0.15);
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        
+        }
+         .profile-buttons button:hover{
+            background-color: black;
+        }
+
+         button:active {
+            transform: translateY(5px);
+        }
+        .text-on-upload-side {
+            position: absolute;
+            top: 2%;
+            left:2%;
+            background-color: rgb(170, 169, 169);
+            opacity:70%;
+            width: 9%;
+
+        }
+        .check{
+            border-bottom: 10px solid green;
+            border-right: 8px solid green ;
+            transform: rotate(45deg);
+            height: 33px;
+            width: 15px;
+            
+
+            
+        }
+        .slideshow-container{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            background-color: white;
+
+        }
+
+        .slideshow-container img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display:none;
+
+        }
+
+        .slideshow-container img.active{
+            display:block;
+        }
+
+        .prev, .next{
+            cursor: pointer;
+            position:absolute;
+            top: 50%;
+            padding: 10px;
+            margin-top: -22px;
+            color:white;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.15);
+            border-radius: 3px;
+
+        }
+        .prev:hover, .next:hover{
+            background-color: #7757a5;
+        }
+        .prev{
+            left: 10px;
+
+        }
+        .next{
+            right:10px;
+        }
+
+    </style>
+    
+</head>
+<body>
+
+    <div class="container">
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <div class="upload-box">
+                <div class="slideshow-container" >
+                    <img src="couple.png" id="slideimage1" class="active">
+                    <img src="pic.jpg"id="slideimage2" >
+                    <img src=""id="slideimage3" >
+                 <p class="text-on-upload-side" id="profileName"> name</p><br>
+                 <p class="text-on-upload-side" id="profileage" style="top: 6%;">age</p>
+                 <div class="text-on-upload-side" id="profilecountry" style="top: 10%;">country</div>
+
+                  
+                  <button class="prev" onclick="prevslide()">&#10094</button>
+                   <button class="next" onclick="nextSlide()">&#10095</button>
+                </div>
+                <input type="file" multiple accept="image/*" onchange="loadimages(event)">
+            </div>
+        </div>
+
+        <!-- Profile Section to be filled with fethched data-->
+        <div class="profile-section">
+            <div class="upload-box" style="height: 40%;">
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-bio" id="profileinterest"></div>
+            <div class="profile-bio" id="profileaboutsec"></div>
+            <div class="profile-bio" id="profileheight"></div>
+            
+        </div>
+            <div class="profile-buttons" >
+                <button style="background-color: rgb(182, 201, 182); display: inline-block;">
+                    <div class="check"></div>
+                </button>
+                <button  style="background-color: rgb(223, 163, 163); display:inline-block; font-weight: 900; color: rgb(212, 10, 10); font-size: x-large;">X</button>
+                <button  style="background-color: #7757a5;  display: inline-block; ">
+                    send message
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+       let currentSlide = 0;
+        let images = [];
+
+        // Load images from file input into the slideshow
+        function loadImages(event) {
+            const files = event.target.files;
+            const slideImages = document.querySelectorAll('.slideshow-container img');
+            
+            images = [];
+            for (let i = 0; i < files.length; i++) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    images.push(e.target.result);
+                    if (i < slideImages.length) {
+                        slideImages[i].src = e.target.result;
+                    }
+                };
+                reader.readAsDataURL(files[i]);
+            }
+            currentSlide = 0;
+            showSlide(currentSlide);
+        }
+
+        // Show the current slide
+        function showSlide(n) {
+            const slideImages = document.querySelectorAll('.slideshow-container img');
+            slideImages.forEach((img, index) => {
+                img.style.display = 'none';
+                img.classList.remove('active');
+                if (index === n) {
+                    img.style.display = 'block';
+                    img.classList.add('active');
+                }
+            });
+        }
+
+        // Navigate to the next slide
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % images.length;
+            showSlide(currentSlide);
+        }
+
+        // Navigate to the previous slide
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + images.length) % images.length;
+            showSlide(currentSlide);
+        }
+
+
+         // Fetch profile data from another page (profile.html)
+         async function fetchProfileData() {
+            const response = await fetch('profile.html');
+            const text = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(text, 'text/html');
+
+            // Extract profile details
+           
+            const profileName = doc.getElementById('profile-name').innerText;
+            const profileinterest = doc.getElementById('profile-interest').innerText;
+            const profileaboutsec = doc.getElementById('profile-aboutsec').innerText;
+            const profileheight = doc.getElementById('selected-height').innerText;
+            const profileage = doc.getElementById('profile-age').innerText;
+            const profilecountry = doc.getElementById('profile-country').innerText;
+            
+
+
+            // Update the main page profile section
+            document.getElementById('profileName').innerText = profileName;
+            document.getElementById('profileinterest').innerText = profileinterest;
+            document.getElementById('profileaboutsec').innerText= profileaboutsec;
+            document.getElementById('profileheight').innerText= profileheight;
+            document.getElementById('profileage').innerText= profileage;
+            document.getElementById('profilecountry').innerText= profilecountry;
+        }
+
+           // Fetch profile data on page load
+              window.onload = function() {
+              fetchProfileData();
+        };
+    </script>
+
+</body>
+</html>
